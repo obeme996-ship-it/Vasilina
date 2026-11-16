@@ -86,17 +86,10 @@
   .photo {
     position: absolute; inset: 0; border-radius: 20px; overflow: hidden;
     border: 6px solid #fff; box-shadow: 0 14px 30px rgba(150,20,70,.3);
-    transition: transform .6s cubic-bezier(.4,.1,.2,1), opacity .6s, z-index 0s .3s;
   }
   .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .photo.front { z-index: 2; transform: rotate(-2deg); opacity: 1; }
   .photo.back  { z-index: 1; transform: rotate(-2deg); opacity: 0; }
-  .photo.leaving { animation: flyOut .6s ease; }
-  @keyframes flyOut {
-    0% { transform: rotate(-2deg); }
-    50% { transform: translateX(70%) rotate(14deg); }
-    100% { transform: rotate(-2deg); }
-  }
   .panel { display: flex; flex-direction: column; align-items: center; gap: 4px; }
   .sparkle { position: fixed; pointer-events: none; z-index: 20; font-size: 22px; animation: burst 1.2s ease-out forwards; }
   @keyframes burst { to { transform: translate(var(--dx), var(--dy)) scale(.4); opacity: 0; } }
@@ -109,9 +102,9 @@
 <section class="screen" id="quiz">
   <div class="big-heart">💗</div>
   <h1>Маленький вопрос</h1>
-  <p class="question">Когда мы начали встречаться?<small>(Напиши цифрами, например 01.01)</small></p>
+  <p class="question">Когда мы начали встречаться?<small>(Напиши цифрами, например 01,01)</small></p>
   <form id="form" autocomplete="off">
-    <input id="answer" inputmode="decimal" placeholder="__.__" maxlength="10">
+    <input id="answer" inputmode="decimal" placeholder="__,__" maxlength="10">
     <button type="submit">Проверить 💌</button>
   </form>
 </section>
@@ -151,7 +144,7 @@
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const val = input.value.trim();
-    if (val.split('').reverse().join('') === '01.12') {
+    if (val.split('').reverse().join('') === '01,12') {
       burst();
       document.getElementById('quiz').classList.add('hidden');
       document.getElementById('thanks').classList.remove('hidden');
@@ -184,12 +177,8 @@
   document.getElementById('swap').addEventListener('click', () => {
     const front = document.querySelector('.photo.front');
     const back = document.querySelector('.photo.back');
-    front.classList.add('leaving');
-    setTimeout(() => {
-      front.classList.replace('front', 'back');
-      back.classList.replace('back', 'front');
-    }, 300);
-    setTimeout(() => front.classList.remove('leaving'), 650);
+    front.classList.replace('front', 'back');
+    back.classList.replace('back', 'front');
   });
 </script>
 </body>
